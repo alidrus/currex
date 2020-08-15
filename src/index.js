@@ -8,36 +8,26 @@ const path = require('path');
 const process = require('process');
 
 // Supporting library requires
-const axios = require('axios');
+const minimist = require('minimist');
+
+// Local requires
+const getLatest = require('./getLatest');
 
 // Configuration settings
 const configFile = path.resolve(process.env.HOME, '.currex.json');
 
-// Base URL for axios queries
-axios.defaults.baseURL = 'https://api.exchangeratesapi.io';
+// Process the command line arguments
+const options = minimist(process.argv.slice(2));
 
-// Get latest exchange rates with MYR as the base currency
-const getLatest = async () => {
-    let data;
+if (!Object.prototype.hasOwnProperty.call(options, 'from')
+    || !Object.prototype.hasOwnProperty.call(options, 'to')
+    || !Object.prototype.hasOwnProperty.call(options, '_')) {
+    // Display usage
+    console.error('Usage: currex --from|-f <from currency> --to <to currency> <amount>');
 
-    // Get latest data from server
-    await axios.get('/latest', {
-        params: {
-            base: 'MYR',
-        },
-    }).then((response) => {
-        data = response.data;
-    }).catch((axiosError) => {
-        throw axiosError;
-    });
-
-    // Write the data to the config file
-    await fs.writeFile(configFile, JSON.stringify(data), (writeError) => {
-        if (writeError) {
-            throw writeError;
-        }
-    });
-};
+    // Exit with error
+    process.exit(1);
+}
 
 // Run the main process as an async operation
 (async () => {
