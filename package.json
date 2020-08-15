@@ -1,0 +1,23 @@
+{
+  "name": "currex",
+  "version": "0.0.1",
+  "description": "Exchange Rates API command line utility.",
+  "main": "src/index.js",
+  "bin": "src/index.js",
+  "scripts": {
+    "dev": "NODE_ENV=development node .",
+    "build": "NODE_ENV=production pkg . --output dist/currex",
+    "lint": "eslint src/"
+  },
+  "author": "Abu Bakar Al-Idrus <alidrus@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.19.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.7.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "pkg": "^4.4.9"
+  }
+}
