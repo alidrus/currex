@@ -11,7 +11,7 @@ const process = require('process');
 const axios = require('axios');
 
 // Configuration settings
-const configFile = path.resolve(process.env.HOME, '.exchange.json');
+const configFile = path.resolve(process.env.HOME, '.currex.json');
 
 // Base URL for axios queries
 axios.defaults.baseURL = 'https://api.exchangeratesapi.io';
@@ -57,15 +57,15 @@ const getLatest = async () => {
                 }
 
                 // If the data is older than 1 hour, get it from the server again
-                if (stats.mtimeMs < Date.now() - 3600000) {
+                if (stats.mtimeMs < (Date.now() - 3600000)) {
                     await getLatest();
                 }
             });
 
             // Read the config from config file
-            await fs.readFile(configFile, { encoding: 'utf8' }, (readError, data) => {
-                if (readError) {
-                    throw readError;
+            await fs.readFile(configFile, { encoding: 'utf8' }, (readFileError, data) => {
+                if (readFileError) {
+                    throw readFileError;
                 }
 
                 config = JSON.parse(data);
