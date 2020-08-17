@@ -98,7 +98,9 @@ if ((!Object.prototype.hasOwnProperty.call(options, 'from')
 
                 if (Object.prototype.hasOwnProperty.call(options, 'list')) {
                     process.stdout.write('List of available currencies:\n', () => {
-                        Object.keys(config.rates).forEach((key) => {
+                        const availableCurrencies = Object.keys(config.rates).sort();
+
+                        availableCurrencies.forEach((key) => {
                             const flushed = process.stdout.write(util.format('%s - %s\n', key, currencyList[key]));
                             while (!flushed) {
                                 if (flushed) {
@@ -106,6 +108,7 @@ if ((!Object.prototype.hasOwnProperty.call(options, 'from')
                                 }
                             }
                         });
+
                         process.exit(0);
                     });
                 }
