@@ -14,6 +14,7 @@ const minimist = require('minimist');
 // Local requires
 const getLatest = require('./getLatest');
 const help = require('./help');
+const currencyFormat = require('./currencyFormat');
 
 // Currency list
 const currencyList = require('./currencyList.json');
@@ -91,7 +92,7 @@ if ((!Object.prototype.hasOwnProperty.call(options, 'from')
 
                     const exchangeAmount = (toRate / fromRate) * amount;
 
-                    process.stdout.write(util.format('%s %s is equivalent to %s %s\n', options.from, amount.toFixed(2), options.to, exchangeAmount.toFixed(2)), () => {
+                    process.stdout.write(util.format('%s is equivalent to %s\n', currencyFormat(amount, options.from), currencyFormat(exchangeAmount, options.to)), () => {
                         process.exit(0);
                     });
                 }
