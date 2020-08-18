@@ -12,8 +12,9 @@ const util = require('util');
 const minimist = require('minimist');
 
 // Local requires
-const getLatest = require('./getLatest');
 const help = require('./help');
+const getLatest = require('./getLatest');
+const rateAvailable = require('./rateAvailable');
 const currencyFormat = require('./currencyFormat');
 
 // Currency list
@@ -69,13 +70,13 @@ if ((!Object.prototype.hasOwnProperty.call(options, 'from')
                     && Object.prototype.hasOwnProperty.call(options, 'to')
                     && Object.prototype.hasOwnProperty.call(options, '_')) {
                     // Invalid from currency
-                    if (!Object.prototype.hasOwnProperty.call(config.rates, options.from)) {
+                    if (!rateAvailable(config.rates, options.from)) {
                         const errorMessage = util.format(help.ERROR_INVALID_CURRENCY, options.from);
                         help.error(errorMessage, 1, help.usage);
                     }
 
                     // Invalid to currency
-                    if (!Object.prototype.hasOwnProperty.call(config.rates, options.to)) {
+                    if (!rateAvailable(config.rates, options.to)) {
                         const errorMessage = util.format(help.ERROR_INVALID_CURRENCY, options.to);
                         help.error(errorMessage, 1, help.usage);
                     }
