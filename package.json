@@ -7,8 +7,8 @@
     "scripts": {
         "build": "NODE_ENV=production pkg . --output dist/currex",
         "dev": "NODE_ENV=development node .",
-        "clean": "[ -e dist/currex ] && rm -f dist/currex",
-        "dist-clean": "[ -e dist/currex ] && rm -fr dist node_modules yarn.lock package-lock.json",
+        "clean": "rm -f dist/currex",
+        "dist-clean": "rm -fr dist node_modules yarn.lock package-lock.json",
         "install-bin": "[ -e dist/currex ] || yarn build && install -m 0755 dist/currex $*",
         "lint": "eslint src/",
         "lintfix": "eslint --fix src/"
