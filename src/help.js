@@ -7,8 +7,8 @@ const process = require('process');
 
 // String constants
 const HELP_USAGE = 'Usage: currex --from <from currency> --to <to currency> <amount>\n'
-    + '       or\n'
-    + '       currex --list\n';
+    + 'or     currex --list\n'
+    + 'or     currex --rates <base currency>\n';
 const ERROR_INVALID_CURRENCY = 'Error: %s is not a valid currency\n';
 const ERROR_INVALID_AMOUNT = 'Error: %s is not a valid amount\n';
 

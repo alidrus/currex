@@ -29,7 +29,8 @@ const options = minimist(process.argv.slice(2));
 if ((!Object.prototype.hasOwnProperty.call(options, 'from')
     || !Object.prototype.hasOwnProperty.call(options, 'to')
     || !Object.prototype.hasOwnProperty.call(options, '_'))
-    && !Object.prototype.hasOwnProperty.call(options, 'list')) {
+    && !Object.prototype.hasOwnProperty.call(options, 'list')
+    && !Object.prototype.hasOwnProperty.call(options, 'rates')) {
     // Display usage
     help.usage(1);
 }
@@ -94,6 +95,31 @@ if ((!Object.prototype.hasOwnProperty.call(options, 'from')
                     const exchangeAmount = (toRate / fromRate) * amount;
 
                     process.stdout.write(util.format('%s is equivalent to %s\n', currencyFormat(amount, options.from), currencyFormat(exchangeAmount, options.to)), () => {
+                        process.exit(0);
+                    });
+                }
+
+                if (Object.prototype.hasOwnProperty.call(options, 'rates')) {
+                    // Invalid base currency
+                    if (!rateAvailable(config.rates, options.rates)) {
+                        const errorMessage = util.format(help.ERROR_INVALID_CURRENCY, options.rates);
+                        help.error(errorMessage, 1, help.usage);
+                    }
+
+                    let output = util.format('%s per unit of currency:\n\n', options.rates);
+
+                    const availableCurrencies = Object.keys(config.rates).sort();
+                    availableCurrencies.forEach((key) => {
+                        const fromRate = Number.parseFloat(config.rates[key]);
+                        const toRate = Number.parseFloat(config.rates[options.rates]);
+                        const amount = Number.parseFloat(1);
+
+                        const exchangeAmount = (toRate / fromRate) * amount;
+
+                        output += util.format('%s: %s\n', key, exchangeAmount);
+                    });
+
+                    process.stdout.write(output, () => {
                         process.exit(0);
                     });
                 }
